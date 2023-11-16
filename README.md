@@ -1,14 +1,13 @@
-[![main](https://github.com/GreyNoise-Intelligence/os-template/workflows/Build/badge.svg)](https://github.com/GreyNoise-Intelligence/os-template/actions?query=workflow%3ABuild)
+[![main](https://github.com/GreyNoise-Intelligence/greynoise-chronicle-siem/workflows/Build/badge.svg)](https://github.com/GreyNoise-Intelligence/greynoise-chronicle-siem/actions?query=workflow%3ABuild)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# GreyNoise Open-Source Template
+# GreyNoise Chronicle SIEM Integrations
 
-The GreyNoise OS template is used to create new open source repos. It contains standards we've set as a team at GreyNoise.
-Please feel free to add/modify as needed for specific languages/tools.
+This repo contains integration code to support using GreyNoise Intelligence data within the Google Chronicle SIEM platform.
 
 ## Usage 
 
-Insert details about usage of your tool, example are very helpful. 
+TBD
 
  ## Contributing
 
@@ -16,24 +15,24 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/GreyNoise-Intelligence/os-template/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/GreyNoise-Intelligence/greynoise-chronicle-siem/tags).
 
 ## Authors
 
-* **Your Name** - *Initial work* - [Your Github Handle](https://github.com/github-handle)
+* **Brad Chiappetta** - *Initial work* - [bradchiappetta](https://github.com/bradchiappetta)
 
-See also the list of [contributors](https://github.com/GreyNoise-Intelligence/os-template/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/GreyNoise-Intelligence/greynoise-chronicle-siem/contributors) who participated in this project.
 
 ## Acknowledgments
 
-* Person (https://github.com/github-handle) - reason
+* TBD
 
 
 ## Links
 
 * [GreyNoise.io](https://greynoise.io)
 * [GreyNoise Terms](https://greynoise.io/terms)
-* [GreyNoise Developer Portal](https://developer.greynoise.io)
+* [GreyNoise Documentation](https://doc.greynoise.io)
 
 ## Contact Us
 
