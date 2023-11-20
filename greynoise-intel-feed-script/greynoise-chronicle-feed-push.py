@@ -17,6 +17,16 @@ with open(credentials_file) as f:
 session = GreyNoise(api_key=GN_API_KEY, integration_name="chronicle-feed-script-v1.0")
 NAMESPACE_UUID = uuid.UUID('00abedb4-aa42-466c-9c01-fed23315a9b7')
 
+if not GN_API_KEY:
+    print("Missing required Environmental Variable: GN_API_KEY")
+    exit(1)
+elif not REGION:
+    print("Missing required Environmental Variable: REGION")
+    exit(1)
+elif not CUSTOMER_ID:
+    print("Missing required Environmental Variable: CUSTOMER_ID")
+    exit(1)
+
 
 def fetch_greynoise_indicators():
     query = "(classification:malicious OR classification:benign) last_seen:1d"
