@@ -19,7 +19,7 @@ NAMESPACE_UUID = uuid.UUID('00abedb4-aa42-466c-9c01-fed23315a9b7')
 
 
 def fetch_greynoise_indicators():
-    query = "classification:malicious last_seen:1d"
+    query = "(classification:malicious OR classification:benign) last_seen:1d"
 
     print(f"Building indicator list for query: {query}")
 
@@ -38,13 +38,13 @@ def fetch_greynoise_indicators():
         indicator_length = len(data)
         print(f"Processing first page of query results. Total results: {indicator_length}")
         scroll = response["scroll"]
-        # while scroll:
-        #     print("Querying for next page of results")
-        #     response = session.query(query=query, scroll=scroll, exclude_raw=True, size=10000)
-        #     data.extend(response["data"])
-        #     indicator_length = len(data)
-        #     print(f"Processing next page of results. Total results: {indicator_length}")
-        #     scroll = response["scroll"] if "scroll" in response else False
+        while scroll:
+            print("Querying for next page of results")
+            response = session.query(query=query, scroll=scroll, exclude_raw=True, size=10000)
+            data.extend(response["data"])
+            indicator_length = len(data)
+            print(f"Processing next page of results. Total results: {indicator_length}")
+            scroll = response["scroll"] if "scroll" in response else False
 
     return data
 
@@ -90,11 +90,11 @@ def create_entity_v2(entity_json, log_type):
 
     r = authenticated.post(url=http_endpoint, data=json_data, headers=headers)
 
-    if r.text == 200:
+    if r.status_code == 200:
         print("Indicators sent successfully.")
     else:
-        print("Indicator submission error")
-        print(r.text)
+        print("Indicator submission error:")
+        print(r.status_code, r.reason)
     return r
 
 
@@ -149,6 +149,7 @@ def send_iocs_to_chronicle(iocs):
         threat["url_back_to_product"] = "https://viz.greynoise.io/ip/{}".format(indicator["ip"])
         threat["category"] = "NETWORK_RECON"
         threat["summary"] = "Internet Scanning activity observed by GreyNoise"
+        entity["ip_geo_artifact"] = ip_geo_artifact
 
         metadata["threat"] = threat
         metadata["interval"] = interval
@@ -159,7 +160,7 @@ def send_iocs_to_chronicle(iocs):
     if events:
         counter = 0
         events_len = len(events)
-        for i in range(0, events_len, 5000):
+        for i in range(0, events_len, 10000):
             counter = counter + 1
             print("Processing Batch: " + str(counter))
             create_entity_v2(json.dumps(events[i: i + 1000]), "GREYNOISE")
