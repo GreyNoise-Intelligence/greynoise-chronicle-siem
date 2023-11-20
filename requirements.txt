@@ -1,0 +1,4 @@
+greynoise==2.0.1
+common==0.1.2
+google==3.0.0
+google-api-python-client==2.108.0
