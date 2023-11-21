@@ -119,20 +119,17 @@ def send_iocs_to_chronicle(iocs):
     events = []
 
     for indicator in iocs:
-        # temporary Dictionaries and Lists to build UDM Nouns
         metadata = {}
         threat = {}
         interval = {}
         entity = {}
         ip_geo_artifact = {"location": {}, "network": {}}
 
-        # >>> METADATA
         metadata["vendor_name"] = "GREYNOISE"
         metadata["product_name"] = "GREYNOISE"
         metadata["collected_timestamp"] = str(now())
         metadata['product_entity_id'] = generate_id_for_ioc_value(indicator["ip"])
-        # metadata.interval
-        # - these are hardcoded as we rely on the confidence score value to show when an IOC has decayed
+
         interval["start_time"] = "2000-01-01T00:00:00Z"
         interval["end_time"] = "2100-01-01T00:00:00Z"
 
@@ -151,8 +148,6 @@ def send_iocs_to_chronicle(iocs):
             ip_geo_artifact["network"]["asn"] = indicator["metadata"].get("asn")
             ip_geo_artifact["network"]["organization_name"] = indicator["metadata"].get("organization")
 
-        # >>> ENTITY
-        # - entity.type
         entity["ip"] = indicator["ip"]
         metadata["entity_type"] = "IP_ADDRESS"
         threat["severity_details"] = "GreyNoise Classification: " + indicator["classification"]
@@ -175,8 +170,9 @@ def send_iocs_to_chronicle(iocs):
             print("Processing Batch: " + str(counter))
             create_entity_v2(json.dumps(events[i: i + 1000]), "GREYNOISE")
             print("IOCs were returned during this iteration.")
+        return "Sending IOCs to Chronicle has been completed."
     else:
-        print("No IOCs were returned during the given interval and filter criteria.")
+        return "No IOCs were returned during the given interval and filter criteria."
 
 
 def now():
@@ -197,6 +193,8 @@ def format_date_to_timestamp(date):
 
 
 def main():
+    start_time = datetime.datetime.now()
+    print(f"Start Time: {start_time}")
     try:
         print("Fetching Indicators from GreyNoise")
         indicators = fetch_greynoise_indicators()
@@ -206,12 +204,17 @@ def main():
 
     try:
         print("Sending Indicators to Chronicle")
-        send_iocs_to_chronicle(indicators)
+        submission = send_iocs_to_chronicle(indicators)
+        print(submission)
     except Exception as e:
         print("Failed to send indicators to Chronicle: " + str(e))
         return "Failed to send indicators to Chronicle"
 
-    return "Execution complete."
+    end_time = datetime.datetime.now()
+    print(f"End Time: {end_time}")
+    duration = end_time - start_time
+    print(f"Script Duration: {duration}")
+    print("Execution Completed")
 
 
 main()
