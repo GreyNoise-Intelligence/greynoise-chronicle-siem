@@ -1,6 +1,5 @@
 import datetime
 import json
-import logging
 import os
 import uuid
 
@@ -15,7 +14,7 @@ with open(credentials_file) as f:
     credentials_file = json.load(f)
 
 session = GreyNoise(api_key=GN_API_KEY, integration_name="chronicle-feed-script-v1.0")
-NAMESPACE_UUID = uuid.UUID('00abedb4-aa42-466c-9c01-fed23315a9b7')
+NAMESPACE_UUID = uuid.UUID("00abedb4-aa42-466c-9c01-fed23315a9b7")
 
 if not GN_API_KEY:
     print("Missing required Environmental Variable: GN_API_KEY")
@@ -66,7 +65,7 @@ def instance_region(region):
         "asia": "https://asia-southeast1-malachiteingestion-pa.googleapis.com",
         "us": "https://malachiteingestion-pa.googleapis.com",
     }
-    print("Checking for valid Region: "+ region)
+    print("Checking for valid Region: " + region)
     if region not in regions:
         raise ValueError("Invalid region")
     print("Region URL: " + str(regions[region]))
@@ -111,7 +110,7 @@ def create_entity_v2(entity_json, log_type):
 def generate_id_for_ioc_value(ioc_value):
     """Generate a stix 2.1 id for an IOC value."""
     ioc_uuid = str(uuid.uuid5(namespace=NAMESPACE_UUID, name=ioc_value.lower()))
-    return f'indicator--{ioc_uuid}'
+    return f"indicator--{ioc_uuid}"
 
 
 def send_iocs_to_chronicle(iocs):
@@ -128,10 +127,10 @@ def send_iocs_to_chronicle(iocs):
         metadata["vendor_name"] = "GREYNOISE"
         metadata["product_name"] = "GREYNOISE"
         metadata["collected_timestamp"] = str(now())
-        metadata['product_entity_id'] = generate_id_for_ioc_value(indicator["ip"])
+        metadata["product_entity_id"] = generate_id_for_ioc_value(indicator["ip"])
 
-        interval["start_time"] = "2000-01-01T00:00:00Z"
-        interval["end_time"] = "2100-01-01T00:00:00Z"
+        interval["start_time"] = str(now())
+        interval["end_time"] = str(nowplusseven())
 
         first_seen_timestamp = format_date_to_timestamp(indicator["first_seen"])
         last_seen_timestamp = format_date_to_timestamp(indicator["last_seen"])
@@ -181,6 +180,17 @@ def now():
 
     # Format the current time
     formatted_time = current_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+    return formatted_time
+
+
+def nowplusseven():
+    # Get the current time
+    current_time = datetime.datetime.now()
+    future_time = current_time + datetime.timedelta(days=7)
+
+    # Format the current time
+    formatted_time = future_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
     return formatted_time
 
