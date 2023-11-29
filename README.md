@@ -60,6 +60,13 @@ Fields with Default Values used for all Indicators:
 | metadata.threat.category     | `NETWORK_RECON`                                    |
 | metadata.threat.summary      | `Internet Scanning activity observed by GreyNoise` |
 
+## Dashboard
+
+The repo also includes a basic dashboard the provides insight into the GreyNoise indicators being ingested into Chronicle.  This file can be imported into the dasbhoard section of Chronicle and should work out of the box.
+
+<img src="greynoise-intel-feed-dashboard/greynoise_dashboard_example_1.png" width="500" /></br>
+<img src="greynoise-intel-feed-dashboard/greynoise_dashboard_example_2.png" width="500" /></br>
+
  ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
